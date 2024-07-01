@@ -15,6 +15,10 @@ import shutil
 import openai
 import time
 
+# import env
+from dotenv import load_dotenv, find_dotenv
+_ = load_dotenv(find_dotenv()) # read local .env file
+
 from webagents_step.utils.data_prep import *
 from webagents_step.agents.prompt_agent import PromptAgent
 from webagents_step.agents.step_agent import StepAgent

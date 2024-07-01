@@ -6,7 +6,7 @@ transformers==4.30
 datasets==2.10.1
 bert-score==0.3.13
 bitsandbytes==0.37.2
-playwright==1.32.1
+playwright
 beautifulsoup4
 colorama
 matplotlib==3.8.2
