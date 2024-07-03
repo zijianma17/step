@@ -101,6 +101,13 @@ def run():
     #####
 
     for config_file in config_file_list:
+        import csv
+        # create a new csv file for each api call
+        with open("single_task_api_call.csv", "w") as f:
+            writer = csv.writer(f)
+            writer.writerow(["api_cost"])
+            
+        
         env = WebArenaEnvironmentWrapper(config_file=config_file, 
                                          max_browser_rows=config.env.max_browser_rows, 
                                          max_steps=config.env.max_env_steps, 
@@ -127,12 +134,28 @@ def run():
                 "trajectory": agent.get_trajectory(),
             }
             summary_file = os.path.join(dstdir, "summary.csv")
+
+            ########## MZJ: cal api cost ##########
+            # calculate the total api cost, and write into it
+            with open("single_task_api_call.csv", "r") as f:
+                lines = f.readlines()[1:]
+                total_api_cost = sum([float(line) for line in lines])
+                total_api_call_num = len(lines)
+            with open("single_task_api_call.csv", "a", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow([total_api_cost])
+            # rename and move the csv file to the log directory
+            os.rename("single_task_api_call.csv", os.path.join(dstdir, f"cost_{task_config['task_id']}.csv"))
+            ########## MZJ: end ##########
+
             summary_data = {
                 "task": config_file,
                 "task_id": task_config['task_id'],
                 "model": config.agent.model_name,
                 "type": config.agent.type,
                 "logfile": re.search(r"/([^/]+/[^/]+\.json)$", log_file).group(1),
+                "api_cost": total_api_cost,
+                "api_call_num": total_api_call_num,
             }
             summary_data.update(status)
             log_run(

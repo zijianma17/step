@@ -35,6 +35,19 @@ class PromptAgent(Agent):
         messages = construct_llm_message_openai(prompt=prompt, prompt_mode=self.prompt_mode)
         model_response = call_openai_llm(messages=messages, model=self.model)
         action, reason = parse_action_reason(model_response)
+
+        ########## MZJ: cal api cost ##########
+        api_cost = calculate_cost_openai(messages=messages, response=model_response, model_name=self.model)
+        # save 3 decimal of the api cost
+        api_cost = round(api_cost, 5)
+        # save the api cost to a local file
+        with open("single_api_cost.txt", "w") as f:
+            f.write(f"{api_cost}")
+        import csv
+        with open("single_task_api_call.csv", mode="a", newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow([api_cost])
+        ########## MZJ: cal api cost ##########            
                 
         if self.logging:
             self.data_to_log['prompt'] = messages

@@ -16,4 +16,5 @@ env:
   max_env_steps: 20
   max_browser_rows: 500
   headless: True
-  task_ids: [132, 173, 784, 308, 169, 475, 481, 349, 293, 394]
+  task_ids: [44]
+  task_ids_backup: [44, 132, 173, 784, 308, 169, 475, 481, 349, 293, 394]

@@ -99,6 +99,18 @@ class Agent:
         self.data_to_log['previous_reasons'] = self.previous_reasons[:-1]
         self.data_to_log['action'] = action
         self.data_to_log['reason'] = reason
+
+        try:
+            # load the local api cost file to save it
+            with open("single_api_cost.txt", "r") as f:
+                api_cost = f.read()
+            self.data_to_log['api_cost'] = api_cost
+            # delete the local api cost file
+            import os
+            os.remove("single_api_cost.txt")
+        except:
+            pass
+
         for (k, v) in status.items():
             self.data_to_log[k] = v
         self.trajectory.append(self.data_to_log)

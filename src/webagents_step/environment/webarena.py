@@ -36,7 +36,7 @@ from browser_env import (
 from evaluation_harness.evaluators import evaluator_router
 
 class WebArenaEnvironmentWrapper(WebEnvironment):
-    def __init__(self, config_file, max_browser_rows=300, max_steps=50, slow_mo=1, observation_type="accessibility_tree", current_viewport_only=False, viewport_size={"width": 1280, "height": 720}, headless=False):
+    def __init__(self, config_file, max_browser_rows=300, max_steps=10, slow_mo=1, observation_type="accessibility_tree", current_viewport_only=False, viewport_size={"width": 1280, "height": 720}, headless=False):
         self.webarena_env = ScriptBrowserEnv(
                     headless=headless,
                     slow_mo=slow_mo,

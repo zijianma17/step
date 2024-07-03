@@ -25,6 +25,7 @@ input_token_cost_usd_by_model = {
     "babbage-002": 0.0016 / 1000,
     "davinci-002": 0.012 / 1000,
     "ada-v2": 0.0001 / 1000,
+    "gpt-3.5-turbo-0125": 5e-6,
 }
 
 output_token_cost_usd_by_model = {
@@ -37,6 +38,7 @@ output_token_cost_usd_by_model = {
     "babbage-002": 0.0016 / 1000,
     "davinci-002": 0.012 / 1000,
     "ada-v2": 0.0001 / 1000,
+    "gpt-3.5-turbo-0125": 15e-6,
 }
 
 def fill_prompt_template(prompt_template, objective, observation, url, previous_history):
@@ -185,7 +187,7 @@ def get_num_tokens(text: str, model_name: str) -> int:
     tokenizer = tiktoken.encoding_for_model(model_name=model_name)
     return len(tokenizer.encode_ordinary(text))
 
-def calculate_cost_openai(messages: str, response: str, model_name: str) -> int:
+def calculate_cost_openai(messages: str, response: str, model_name: str) -> float:
     input_text = " ".join([msg["content"] for msg in messages]) 
     num_input_tokens = get_num_tokens(input_text, model_name)
     num_output_tokens = get_num_tokens(response, model_name)
