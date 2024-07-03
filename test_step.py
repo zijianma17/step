@@ -52,11 +52,8 @@ def run():
     
     config_file_list = []
     
-    # only one input is task_id
-    # task_id = sys.argv[1]
-    # task_ids = config.env.task_ids
-    # task_ids = [task_id]
-    task_ids = [44, 45, 156]
+    # task_ids = [44, 45, 156]
+    task_ids = config.env.task_ids
 
     for task_id in task_ids:
         config_file_list.append(f"tasks/webarena/{task_id}.json")
