@@ -109,7 +109,6 @@ def run():
             with open("single_task_api_call.csv", "w") as f:
                 writer = csv.writer(f)
                 writer.writerow(["api_cost"])
-                
             
             env = WebArenaEnvironmentWrapper(config_file=config_file, 
                                             max_browser_rows=config.env.max_browser_rows, 
