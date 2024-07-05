@@ -125,7 +125,8 @@ def run():
             env.close()
         
         except Exception as e:
-                status = {'done': False, 'reward': 0.0, 'success': 0.0, 'num_actions': 0, 'action_limit_exceeded': False, "error": str(e)}
+            env.close()
+            status = {'done': False, 'reward': 0.0, 'success': 0.0, 'num_actions': 0, 'action_limit_exceeded': False, "error": str(e)}
 
         if config.logging:
             with open(config_file, "r") as f:
