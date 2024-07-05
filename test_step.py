@@ -15,6 +15,8 @@ import shutil
 import openai
 import time
 
+import csv
+
 # import env
 from dotenv import load_dotenv, find_dotenv
 _ = load_dotenv(find_dotenv()) # read local .env file
@@ -101,26 +103,30 @@ def run():
     #####
 
     for config_file in config_file_list:
-        import csv
-        # create a new csv file for each api call
-        with open("single_task_api_call.csv", "w") as f:
-            writer = csv.writer(f)
-            writer.writerow(["api_cost"])
+
+        try:
+            # create a new csv file for each api call
+            with open("single_task_api_call.csv", "w") as f:
+                writer = csv.writer(f)
+                writer.writerow(["api_cost"])
+                
             
+            env = WebArenaEnvironmentWrapper(config_file=config_file, 
+                                            max_browser_rows=config.env.max_browser_rows, 
+                                            max_steps=config.env.max_env_steps, 
+                                            slow_mo=1, 
+                                            observation_type="accessibility_tree", 
+                                            current_viewport_only=True, 
+                                            viewport_size={"width": 1920, "height": 1080}, 
+                                            headless=config.env.headless)
+            
+            agent = agent_init()
+            objective = env.get_objective()
+            status = agent.act(objective=objective, env=env)
+            env.close()
         
-        env = WebArenaEnvironmentWrapper(config_file=config_file, 
-                                         max_browser_rows=config.env.max_browser_rows, 
-                                         max_steps=config.env.max_env_steps, 
-                                         slow_mo=1, 
-                                         observation_type="accessibility_tree", 
-                                         current_viewport_only=True, 
-                                         viewport_size={"width": 1920, "height": 1080}, 
-                                         headless=config.env.headless)
-        
-        agent = agent_init()
-        objective = env.get_objective()
-        status = agent.act(objective=objective, env=env)
-        env.close()
+        except Exception as e:
+                status = {'done': False, 'reward': 0.0, 'success': 0.0, 'num_actions': 0, 'action_limit_exceeded': False, "error": str(e)}
 
         if config.logging:
             with open(config_file, "r") as f:
