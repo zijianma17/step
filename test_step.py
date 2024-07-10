@@ -105,6 +105,11 @@ def run():
     for config_file in config_file_list:
 
         try:
+            env.close()
+        except:
+            pass
+
+        try:
             # create a new csv file for each api call
             with open("single_task_api_call.csv", "w") as f:
                 writer = csv.writer(f)
@@ -127,6 +132,9 @@ def run():
         except Exception as e:
             env.close()
             status = {'done': False, 'reward': 0.0, 'success': 0.0, 'num_actions': 0, 'action_limit_exceeded': False, "error": str(e)}
+            if "Playwright Sync" in str(e):
+                print("Playwright Sync error, exit the program")
+                exit()
 
         if config.logging:
             with open(config_file, "r") as f:

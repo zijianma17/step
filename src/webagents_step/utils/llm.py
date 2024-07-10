@@ -26,6 +26,7 @@ input_token_cost_usd_by_model = {
     "davinci-002": 0.012 / 1000,
     "ada-v2": 0.0001 / 1000,
     "gpt-3.5-turbo-0125": 0.5e-6,
+    "gpt-4-turbo-2024-04-09": 10e-6,
 }
 
 output_token_cost_usd_by_model = {
@@ -39,6 +40,7 @@ output_token_cost_usd_by_model = {
     "davinci-002": 0.012 / 1000,
     "ada-v2": 0.0001 / 1000,
     "gpt-3.5-turbo-0125": 1.5e-6,
+    "gpt-4-turbo-2024-04-09": 30e-6,
 }
 
 def fill_prompt_template(prompt_template, objective, observation, url, previous_history):
