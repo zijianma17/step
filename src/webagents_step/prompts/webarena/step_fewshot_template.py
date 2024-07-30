@@ -254,7 +254,7 @@ stop [2]
 
 search_issues = {
 "instruction": """You are an AI assistant performing tasks on a web browser. To solve these tasks, you will issue specific actions.
-
+f
 The actions you can perform fall into several categories:
 
 Page Operation Actions:
